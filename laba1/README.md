@@ -11,17 +11,23 @@ cd build
 cd ..
 
 для *nix систем:
+
 make
+
 sudo make install
 
 запуск самого cmake:
+
 cmake -S. -Bbuild  
+
 cmake --build build
 
 запуск main (не смотря на своё существование он крайне бесполезен):
+
 ./build/BA_main
 
 запуск гугл тестов:
+
 ./build/tests/BA_test
 
 папка .vscode создаётся vscod-ом, не знаю что в ней
