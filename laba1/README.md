@@ -1,3 +1,5 @@
+в терминале в папке laba1
+
 установка googletest:
 
 git clone https://github.com/google/googletest.git -b v1.15.2
@@ -15,6 +17,10 @@ cmake ..
 make
 
 sudo make install
+
+cd ..
+
+cd ..
 
 запуск самого cmake:
 
