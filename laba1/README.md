@@ -12,11 +12,15 @@ cd build
 
 cmake ..
 
+____________________
+
 для *nix систем:
 
   make
 
   sudo make install
+  
+_____________________
 
 cd ..
 
