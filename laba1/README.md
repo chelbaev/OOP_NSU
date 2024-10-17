@@ -8,7 +8,7 @@ mkdir build
 
 cd build
 
-cd ..
+cmake ..
 
 для *nix систем:
 
