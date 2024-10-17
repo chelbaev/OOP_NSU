@@ -14,9 +14,9 @@ cmake ..
 
 для *nix систем:
 
-make
+  make
 
-sudo make install
+  sudo make install
 
 cd ..
 
