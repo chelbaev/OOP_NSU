@@ -11,10 +11,10 @@ std::string BitArray::to_bin (unsigned long long n) const{
     return buffer;        
 }
 
-BitArray::BitArray():size(0), last(-1), array({}){}
+BitArray::BitArray():size(0), last(-1), array({}){}//
 BitArray::~BitArray(){
     this->array.erase(this->array.begin(), this->array.end());
-}
+}//
 BitArray::BitArray(int num_bits, unsigned long long value):size(num_bits/64 + (num_bits%64 > 0 ? 1 : 0)), last(num_bits - 1) {
     if (num_bits == 0) {
         BitArray res;
@@ -25,16 +25,16 @@ BitArray::BitArray(int num_bits, unsigned long long value):size(num_bits/64 + (n
         this->array.push_back(value);
     }
     this->array.push_back(value & ((unsigned long long) -1 >> (63 - this->last%64))); 
-}
+}//
 
-BitArray::BitArray(const BitArray& b){*this = b;}
+BitArray::BitArray(const BitArray& b){*this = b;}//
 
 void BitArray::swap(BitArray& b){
     BitArray c;
     c = b;
     b = *this;
     *this = c;
-}
+}//
 
 BitArray& BitArray::operator=(const BitArray& b){
     this->size = b.size;
@@ -42,7 +42,7 @@ BitArray& BitArray::operator=(const BitArray& b){
     this->array.resize(this->size);
     std::copy(b.array.begin(), b.array.end(), this->array.begin());
     return *this;
-}
+}//
 
 void BitArray::resize(int num_bits, bool value){
     if((this->last == -1) || (num_bits == 0)){
@@ -68,13 +68,13 @@ void BitArray::resize(int num_bits, bool value){
     }
     this->size = new_size;
     this->last = new_last;
-}
+}//
 //Очищает массив.
 void BitArray::clear(){
     this->size = 0;
     this->last = -1;
     this->array.clear();
-}
+}//
 //Добавляет новый бит в конец массива. В случае необходимости 
 //происходит перераспределение памяти.
 void BitArray::push_back(bool bit){
@@ -83,7 +83,7 @@ void BitArray::push_back(bool bit){
     if (bias == 0)
         this->resize(this->last + 1);
     this->set(this->last, bit);
-}
+}//
 
 
 //Битовые операции над массивами.
@@ -100,19 +100,19 @@ BitArray& BitArray::operator&=(const BitArray& b){
     for (int i = 0; i < this->size; i++)
         this->array[i] &= b.array[i];
     return *this;
-}
+}//
 BitArray& BitArray::operator|=(const BitArray& b){
     testing(*this, b);
     for (int i = 0; i < this->size; i++)
         this->array[i] |= b.array[i];
     return *this;
-}
+}//
 BitArray& BitArray::operator^=(const BitArray& b){
     testing(*this, b);
     for (int i = 0; i < this->size; i++)
         this->array[i] ^= b.array[i];
     return *this;
-}
+}//
 
 //Битовый сдвиг с заполнением нулями.
 BitArray& BitArray::operator<<=(int n){
@@ -125,7 +125,7 @@ BitArray& BitArray::operator<<=(int n){
         this->array[i] = 0;
     }
     return *this;
-}
+}//
 BitArray& BitArray::operator>>=(int n){
     int window = n / 64;
     int shift = n % 64;
@@ -137,17 +137,17 @@ BitArray& BitArray::operator>>=(int n){
         this->array[i] = 0;
     }
     return *this;
-}
+}//
 BitArray BitArray::operator<<(int n) const{
     BitArray a(*this);
     a <<= n;
     return a;
-}
+}//
 BitArray BitArray::operator>>(int n) const{
     BitArray a(*this);
     a >>= n;
     return a;
-}
+}//
 
 //0000000000000000000000000000011111111111111111111111111111111000
 //Устанавливает бит с индексом n в значение val.
@@ -161,26 +161,26 @@ BitArray& BitArray::set(int n, bool val){
     unsigned long long a = (unsigned long long)1 << n;
     this->array[place] = val ? this->array[place] | a : this->array[place] & (ed ^ a); 
     return *this;
-}
+}//
 //Заполняет массив истиной.
 BitArray& BitArray::set(){
     for (int i = 0; i < this->size; i++)
         this->array[i] = ed;
     this->array[this->size - 1] = ed ^ (ed << this->last%64 << 1);
     return *this;
-}
+}//
 
 //Устанавливает бит с индексом n в значение false.
 BitArray& BitArray::reset(int n){
     this->set(n, false);
     return *this;
-}
+}//
 //Заполняет массив ложью.
 BitArray& BitArray::reset(){
     for (int i = 0; i < this->size; i++)
         this->array[i] = 0;
     return *this;
-}
+}//
 
 //true, если массив содержит истинный бит.
 bool BitArray::any() const{
@@ -188,16 +188,16 @@ bool BitArray::any() const{
         if ((ed & this->array[i]) > 0)
             return true;
     return false;
-}
-//true, если все биты массива ложны.
-bool BitArray::none() const{return true ^ this->any();}
+}//
+//true, если все биты массива ложПравила выставления оценкины.
+bool BitArray::none() const{return true ^ this->any();}//
 //Битовая инверсия
 BitArray BitArray::operator~() const{
     BitArray a(*this);
     for(int i = 0; i < this->size; i++)
         a.array[i] ^= ed;
     return a;
-}
+}//
 //Подсчитывает количество единичных бит.
 int BitArray::count() const{
     int count = 0;
@@ -205,10 +205,10 @@ int BitArray::count() const{
         for (unsigned long long q = (unsigned long long)1 << 63; q > 0; q = q >> 1)
             count += ((q & this->array[i]) > 0 ? 1 : 0);
     return count;
-}
+}//
 
 //Возвращает значение бита по индексу i.
-bool BitArray::operator[](int i) const{return (this->array[i / 64] & ((unsigned long long) 1 << i%64)) > 0 ? 1 : 0;}
+bool BitArray::operator[](int i) const{return (this->array[i / 64] & ((unsigned long long) 1 << i%64)) > 0 ? 1 : 0;}//
 
 int BitArray::get_size() const{return this->size;}
 int BitArray::get_last() const{return this->last;}
@@ -222,7 +222,7 @@ std::string BitArray::to_string()const{
         buffer += intermediate + (i + 1 == this->size ? "" : "\n");
     }
     return buffer;
-}
+}//
 
 bool operator==(const BitArray & a, const BitArray & b){
     if (a.get_last() != b.get_last())
@@ -231,7 +231,7 @@ bool operator==(const BitArray & a, const BitArray & b){
         if(a.get_block(i) != b.get_block(i))
             return false;
     return true;
-}
+}//
 bool operator!=(const BitArray & a, const BitArray & b){return a == b ? false : true;}
 
 BitArray operator&(const BitArray& b1, const BitArray& b2){
